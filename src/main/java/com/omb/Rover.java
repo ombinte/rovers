@@ -66,6 +66,37 @@ public class Rover {
     }
 
     /**
+     * Verifie que le Rover est toujours sur le plateau
+     * @param matrix
+     * @return
+     */
+    public boolean checkCoordinate(Matrix matrix) throws BadCoordinateException{
+        if(this.getPosition().getLocation().getX() < matrix.getLOWWER_LEFT().getX()) {
+            throw new BadCoordinateException("Mauvaise coordonnee, position " +
+                    "minimale en X : 0, rover.x : " + this.getPosition().getLocation().getX());
+        }
+
+        if(this.getPosition().getLocation().getX() > matrix.getUpperRight().getX()) {
+            throw new BadCoordinateException("Mauvaise coordonnee, position " +
+                    "maximale en X : "+ matrix.getUpperRight().getX() +
+                    "rover.x : "  +  this.getPosition().getLocation().getX());
+        }
+
+        if(this.getPosition().getLocation().getY() < matrix.getLOWWER_LEFT().getY()) {
+            throw new BadCoordinateException("Mauvaise coordonnee, position " +
+                    "minimale en Y : 0, rover.Y : " + this.getPosition().getLocation().getY());
+        }
+
+        if(this.getPosition().getLocation().getY() > matrix.getUpperRight().getY()) {
+            throw new BadCoordinateException("Mauvaise coordonnee, position " +
+                    "maximale en Y : "+ matrix.getUpperRight().getY() +
+                    "rover.x : "  +  this.getPosition().getLocation().getY());
+        }
+
+        return true;
+    }
+
+    /**
      * Déplace le Rover d'une position en direction du nord.
      */
     private void moveRoverToNorth() {

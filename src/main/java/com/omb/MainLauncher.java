@@ -21,6 +21,16 @@ public class MainLauncher {
                 // Lecture du fichier et recuperation de la liste des
                 // position des rovers ainsi que des mouvements
                 Path currentRelativePath = Paths.get(args[0]);
+
+                // Initialisation du plateau
+                String sizeOfMatrix =
+                        Files.lines(currentRelativePath).findFirst().orElse("");
+                if(sizeOfMatrix.isEmpty()) {
+                    throw new IllegalArgumentException("Taille de la matrice " +
+                            "non definie !!");
+                }
+                Matrix matrix = InputUtils.initMatrix(sizeOfMatrix);
+
                 Stream<String> linesRover = Files.lines(currentRelativePath);
                 List<String> startedPosition =
                         linesRover.skip(1).filter(l -> Character.isDigit(l.charAt(0))).collect(Collectors.toList());
@@ -58,7 +68,16 @@ public class MainLauncher {
 
                     index++;
 
-                    rovers.add(rover);
+                    try {
+                        // Verification des coordonnee finale, si KO on ne
+                        // l'ajoute pas.
+                        if (rover.checkCoordinate(matrix)) {
+                            rovers.add(rover);
+                        }
+                    } catch (BadCoordinateException bac) {
+                        System.out.println(bac.getMessage());
+                    }
+
                 }
 
                 // Affichage de la position des rovers suite à la navigation
@@ -72,5 +91,7 @@ public class MainLauncher {
         }
 
     }
+
+
 
 }

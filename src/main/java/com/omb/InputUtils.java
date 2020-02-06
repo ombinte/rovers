@@ -26,4 +26,26 @@ public class InputUtils {
             index++;
         }
     }
+
+    public static Matrix initMatrix(String sizeOfMatrix) {
+        String [] coord = sizeOfMatrix.split(" ");
+        if(coord.length > 2) {
+            throw new IllegalArgumentException("Taille de la matrice pas " +
+                    "bonne" +
+                    " : " + sizeOfMatrix);
+        }
+
+        if(Character.isLetter(coord[0].charAt(0))) {
+            throw new IllegalArgumentException("La coordonnee 1 n'est pas " +
+                    "correcte : " + coord[0]);
+        }
+
+        if(Character.isLetter(coord[1].charAt(0))) {
+            throw new IllegalArgumentException("La coordonnee 2 n'est pas " +
+                    "correcte : " + coord[1]);
+        }
+
+        return new Matrix(Integer.valueOf(coord[0]),
+                Integer.valueOf(coord[1]));
+    }
 }
